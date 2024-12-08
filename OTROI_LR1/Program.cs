@@ -9,65 +9,44 @@ class Program
 {
     static void Main()
     {
-        /*//XmlDocument xmlDocument = new XmlDocument();
-        //xmlDocument.Load("pizzas.xml");
-
-        //xmlDocument.Schemas.Add(null, "pizzas.xsd");
-        //xmlDocument.Validate(ValidationEventHandler);
-        //Console.WriteLine("XML validation is late.");
-        //Console.ReadLine();
-
-        //var pizzas = new List<Pizza>
+        ////DOM    
+        //DOMParser.Marshaling(new Pizza
         //{
-        //    new Pizza
-        //    {
-        //        Name = "Маргарита",
-        //        Price = 100.00m,
-        //        Size = "Medium",
-        //        Ingredients = new List<string> { "Сыр", "Томаты" }
-        //    },
-        //    new Pizza
-        //    {
-        //        Name = "Пепперони",
-        //        Price = 120.50m,
-        //        Size = "Large",
-        //        Ingredients = new List<string> { "Сыр", "Пепперони" }
-        //    }
-        //};
+        //    Name = "4 Сири",
+        //    Price = 200.00m,
+        //    Size = "Екстра",
+        //    Ingredients = new List<string> { "Багато сира", "Ще багато сира", "Олівка" }
+        //});
+        //DOMParser.DeMarshaling();
 
-        // Сериализация
-        //XmlHelper<List<Pizza>>.Serialize("pizzas.xml", pizzas);
-        //Console.WriteLine("Данные сериализованы!");
-
-        //// Десериализация
-        //var deserializedPizzas = XmlHelper<List<Pizza>>.Deserialize("pizzas.xml");
-        //foreach (var pizza in deserializedPizzas)
+        ////SAX    
+        //SAXParser.Marshaling(new Pizza
         //{
-        //    Console.WriteLine($"Название: {pizza.Name}, Цена: {pizza.Price}, Размер: {pizza.Size}");
-        //}
+        //    Name = "Кабанчик",
+        //    Price = 180.40m,
+        //    Size = "Велика",
+        //    Ingredients = new List<string> { "Копченості", "Моцарела", "Яблука" }
+        //});
+        //SAXParser.DeMarshaling();
 
-    }
+        ////StAX
+        //StAXParser.Marshaling(new Pizza
+        //{
+        //    Name = "Гори Московія",
+        //    Price = 130.00m,
+        //    Size = "Екстра",
+        //    Ingredients = new List<string> { "Чілі", "Табаско", "Жарене м'ясо" }
+        //});
+        //StAXParser.DeMarshaling();
 
-    private static void ValidationEventHandler(object sender, ValidationEventArgs e)
-    {
-        if (e.Severity == XmlSeverityType.Error)
-        {
-            Console.WriteLine($"Error: {e.Message}");
-        }
-        else
-        {
-            Console.WriteLine($"Warning: {e.Message}");
-        }
-    }*/
-        DOMParserDemarshaling.AddPizza(new Pizza
-        {
-            Name = "4 Сири",
-            Price = 200.00m,
-            Size = "Екстра",
-            Ingredients = new List<string> { "Багато сира", "Ще багато сира", "Олівка" }
-        });
-        DOMParserMarshaling.Parse();
-
+        //JAXBParser.Marshaling(new Pizza
+        //{
+        //    Name = "Теріякі",
+        //    Price = 199.99m,
+        //    Size = "Маленька",
+        //    Ingredients = new List<string> { "Теріякі", "Бекон", "Пармізан" }
+        //});
+        //JAXBParser.DeMarshaling();
         Console.ReadLine();
     }
 }
