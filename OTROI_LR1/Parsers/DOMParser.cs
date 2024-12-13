@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
-using System.Xml.Schema;
 
 namespace OTROI_LR1
 {
@@ -58,44 +56,19 @@ namespace OTROI_LR1
                 Console.WriteLine();
             }
         }
-       
+
         public static void Marshaling(Pizza pizza)
         {
             XmlDocument doc = new XmlDocument();
 
-            if (File.Exists("pizzas.xml"))
-            {
-                doc.Load("pizzas.xml"); // Загружаем существующий файл
-            }
-            else
-            {
-                XmlElement root = doc.CreateElement("Pizzas", "http://www.example.com/pizza");
-                doc.AppendChild(root);
-            }
 
-            // Находим максимальный id среди всех существующих пицц
-            int maxId = 0;
-            XmlNodeList pizzaNodes = doc.GetElementsByTagName("Pizza");
-            foreach (XmlElement pizzaElementik in pizzaNodes)
-            {
-                if (pizzaElementik.HasAttribute("id"))
-                {
-                    int id = int.Parse(pizzaElementik.GetAttribute("id"));
-                    if (id > maxId)
-                    {
-                        maxId = id;
-                    }
-                }
-            }
-
-            // Увеличиваем id на 1 для новой пиццы
-            string newId = (maxId + 1).ToString();
+            doc.Load("pizzas.xml"); // Загружаем существующий файл
 
             // Создаем новый элемент Pizza
             XmlElement pizzaElement = doc.CreateElement("Pizza", "http://www.example.com/pizza");
 
             // Устанавливаем атрибут id для новой пиццы
-            pizzaElement.SetAttribute("id", newId);
+            pizzaElement.SetAttribute("id", pizza.id);
 
             // Создаем элементы внутри Pizza
             XmlElement name = doc.CreateElement("Name", "http://www.example.com/pizza");
@@ -125,7 +98,6 @@ namespace OTROI_LR1
 
             // Сохраняем обновленный документ
             doc.Save("pizzas.xml");
-            Console.WriteLine("Pizza added and XML document saved in pizzas.xml");
         }
     }
 }

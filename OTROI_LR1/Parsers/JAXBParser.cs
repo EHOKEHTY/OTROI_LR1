@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace OTROI_LR1.Parsers
@@ -61,7 +58,7 @@ namespace OTROI_LR1.Parsers
             pizzas.PizzaList.Add(pizza);
 
             // Перезаписать файл с обновленными данными
-            using (FileStream fs = new FileStream(xmlFilePath, FileMode.Create))
+            using (FileStream fs = new FileStream(xmlFilePath, FileMode.OpenOrCreate))
             {
                 serializer.Serialize(fs, pizzas);
             }

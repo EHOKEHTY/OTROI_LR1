@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -75,6 +73,7 @@ namespace OTROI_LR1.Parsers
                 Console.WriteLine();
             }
         }
+
         static public void Marshaling(Pizza pizza)
         {
             const string fileName = "pizzas.xml";
@@ -98,16 +97,9 @@ namespace OTROI_LR1.Parsers
             // Получаем корневой элемент
             XElement root = doc.Root;
 
-            // Определяем максимальный id среди существующих пицц
-            int maxId = root.Elements(XName.Get("Pizza", namespaceUri))
-                            .Attributes("id")
-                            .Select(attr => int.Parse(attr.Value))
-                            .DefaultIfEmpty(0)
-                            .Max();
-
             // Создаем новый элемент Pizza
             XElement newPizza = new XElement(XName.Get("Pizza", namespaceUri),
-                new XAttribute("id", (maxId + 1).ToString()),
+                new XAttribute("id", pizza.id),
                 new XElement(XName.Get("Name", namespaceUri), pizza.Name),
                 new XElement(XName.Get("Price", namespaceUri), pizza.Price.ToString("F2").Replace(",", ".")),
                 new XElement(XName.Get("Size", namespaceUri), pizza.Size),

@@ -1,7 +1,5 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -84,34 +82,16 @@ namespace OTROI_LR1.Parsers
             const string fileName = "pizzas.xml";
             const string namespaceUri = "http://www.example.com/pizza";
 
-            XDocument doc;
 
-            // Проверяем, существует ли файл
-            if (File.Exists(fileName))
-            {
-                // Загружаем существующий XML-файл
-                doc = XDocument.Load(fileName);
-            }
-            else
-            {
-                // Создаем новый документ с корневым элементом
-                doc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"),
-                    new XElement(XName.Get("Pizzas", namespaceUri)));
-            }
+            // Загружаем существующий XML-файл
+            XDocument doc = XDocument.Load(fileName);
 
             // Получаем корневой элемент
             XElement root = doc.Root;
 
-            // Определяем максимальный id среди существующих пицц
-            int maxId = root.Elements(XName.Get("Pizza", namespaceUri))
-                            .Attributes("id")
-                            .Select(attr => int.Parse(attr.Value))
-                            .DefaultIfEmpty(0)
-                            .Max();
-
             // Создаем новый элемент Pizza
             XElement newPizza = new XElement(XName.Get("Pizza", namespaceUri),
-                new XAttribute("id", (maxId + 1).ToString()),
+                new XAttribute("id", pizza.id),
                 new XElement(XName.Get("Name", namespaceUri), pizza.Name),
                 new XElement(XName.Get("Price", namespaceUri), pizza.Price.ToString("F2").Replace(",", ".")),
                 new XElement(XName.Get("Size", namespaceUri), pizza.Size),
@@ -125,7 +105,6 @@ namespace OTROI_LR1.Parsers
 
             // Сохраняем документ
             doc.Save(fileName);
-            Console.WriteLine("Pizza added successfully to pizzas.xml");
         }
 
     }
