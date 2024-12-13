@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using static OTROI_LR1.Parsers.JAXBParser;
 
 [XmlRoot("Pizza")]
 public class Pizza
@@ -18,25 +17,7 @@ public class Pizza
         {
             if (string.IsNullOrEmpty(idValue))
             {
-
-
-                if (File.Exists(xmlFilePath))
-                {
-                    // Найти следующий доступный ID в существующем XML
-                    return FindNextId(xmlFilePath).ToString();
-                }
-                else
-                {
-                    // Если файла нет, создаем новый XML и задаем ID как "1"
-                    var newDoc = new XDocument(
-                        new XDeclaration("1.0", "utf-8", "yes"),
-                        new XElement(XName.Get("Pizzas", namespaceUri))
-                    );
-
-                    newDoc.Save(xmlFilePath);
-
-                    return "1";
-                }
+                return FindNextId(xmlFilePath).ToString();
             }
             else
             {
@@ -66,7 +47,8 @@ public class Pizza
         {
             var newDoc = new XDocument(
                         new XDeclaration("1.0", "utf-8", "yes"),
-                        new XElement(XName.Get("Pizzas", namespaceUri))
+                        new XProcessingInstruction("xml-stylesheet", $"type=\"text/xsl\" href=\"pizzas.xslt\""),
+            new XElement(XName.Get("Pizzas", namespaceUri))
                     );
 
             newDoc.Save(xmlFilePath);

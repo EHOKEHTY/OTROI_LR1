@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace OTROI_LR1.Parsers
@@ -15,7 +18,7 @@ namespace OTROI_LR1.Parsers
         }
         static public void DeMarshaling()
         {
-            string xmlFilePath = "D://Study//HW//НУРЕ//Пятый семестр//ОТРОИ//OTROI_LR1//OTROI_LR1//bin//Debug//pizzas.xml";
+            string xmlFilePath = "pizzas.xml";
             var serializer = new XmlSerializer(typeof(Pizzas));
 
             using (FileStream fs = new FileStream(xmlFilePath, FileMode.Open))
@@ -36,13 +39,13 @@ namespace OTROI_LR1.Parsers
         }
         static public void Marshaling(Pizza pizza)
         {
-            string xmlFilePath = "D://Study//HW//НУРЕ//Пятый семестр//ОТРОИ//OTROI_LR1//OTROI_LR1//bin//Debug//pizzas.xml";
+            string xmlFilePath = "pizzas.xml";
             XmlSerializer serializer = new XmlSerializer(typeof(Pizzas));
             Pizzas pizzas;
 
             if (File.Exists(xmlFilePath))
             {
-                // Загрузить существующий XML файл
+                // Зчитати наявний XML файл
                 using (FileStream fs = new FileStream(xmlFilePath, FileMode.Open))
                 {
                     pizzas = (Pizzas)serializer.Deserialize(fs);
@@ -50,18 +53,28 @@ namespace OTROI_LR1.Parsers
             }
             else
             {
-                // Создать новый список пицц, если файл отсутствует
+                // Створити новий список піц, якщо файл відсутній
                 pizzas = new Pizzas { PizzaList = new List<Pizza>() };
             }
 
-            // Добавить новую пиццу
+            // Додати нову піцу
             pizzas.PizzaList.Add(pizza);
 
-            // Перезаписать файл с обновленными данными
-            using (FileStream fs = new FileStream(xmlFilePath, FileMode.OpenOrCreate))
+            // Серіалізуємо XML у тимчасовий файл
+            string tempFilePath = xmlFilePath + ".tmp";
+            using (var writer = new StreamWriter(tempFilePath, false, Encoding.UTF8))
             {
-                serializer.Serialize(fs, pizzas);
+                serializer.Serialize(writer, pizzas);
             }
+
+            // Додаємо декларацію стилю у файл
+            string stylesheetLine = "<?xml-stylesheet type=\"text/xsl\" href=\"pizzas.xslt\"?>";
+            var lines = File.ReadAllLines(tempFilePath).ToList();
+            lines.Insert(1, stylesheetLine); // Вставляємо після заголовку XML
+            File.WriteAllLines(xmlFilePath, lines, Encoding.UTF8);
+
+            // Видаляємо тимчасовий файл
+            File.Delete(tempFilePath);
         }
     }
 }

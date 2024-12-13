@@ -7,7 +7,7 @@ class Program
 {
     static void Main()
     {
-
+        //JABX
         JAXBParser.Marshaling(new Pizza
         {
             Name = "Бєкон",
@@ -24,7 +24,7 @@ class Program
             Size = "Екстра",
             Ingredients = new List<string> { "Багато сира", "Ще багато сира", "Олівка" }
         });
-        //DOMParser.DeMarshaling();
+        DOMParser.DeMarshaling();
 
         //SAX    
         SAXParser.Marshaling(new Pizza
@@ -34,7 +34,7 @@ class Program
             Size = "Велика",
             Ingredients = new List<string> { "Копченості", "Моцарела", "Яблука" }
         });
-        //SAXParser.DeMarshaling();
+        SAXParser.DeMarshaling();
 
         //StAX
         StAXParser.Marshaling(new Pizza
@@ -44,8 +44,9 @@ class Program
             Size = "Екстра",
             Ingredients = new List<string> { "Чілі", "Табаско", "Жарене м'ясо" }
         });
-        //StAXParser.DeMarshaling();
+        StAXParser.DeMarshaling();
 
+        //JAXB
         JAXBParser.Marshaling(new Pizza
         {
             Name = "Теріякі",
